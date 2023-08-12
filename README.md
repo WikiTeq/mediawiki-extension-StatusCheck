@@ -28,6 +28,10 @@ The extension allows to perform on-site checks for various issues
 * **Composer dependencies** - verifies that lock file and dependencies are in sync ( e.g., to catch situations when the wiki was updated but composer packages were not )
 * **Search engine check** - verified that search works and can find some text from the wiki homepage
 
+# Permissions
+
+* `status-check` permission allows to use the API and perform checks via Special page, granted to `sysop` group by default
+
 # Development
 
 * `src/Checks/BaseCheck.php` - is the base abstract class for creating new Checks
