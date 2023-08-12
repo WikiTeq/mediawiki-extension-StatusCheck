@@ -21,4 +21,9 @@ abstract class BaseCheck {
 	 */
 	abstract public function perform(): StatusValue;
 
+	/**
+	 * @return string
+	 */
+	abstract public function getMitigationSuggestions(): string;
+
 }

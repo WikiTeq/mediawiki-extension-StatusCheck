@@ -25,6 +25,9 @@
 	"AvailableRights": [
 		"status-check"
 	],
+	"APIModules": {
+		"statuscheck": "MediaWiki\\Extension\\StatusCheck\\Api\\StatusCheckEndpoint"
+	},
 	"GroupPermissions": {
 		"sysop": {
 			"status-check": true

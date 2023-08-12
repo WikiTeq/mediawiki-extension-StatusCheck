@@ -24,6 +24,13 @@ class ComposerDependenciesCheck extends BaseCheck {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getMitigationSuggestions(): string {
+		return wfMessage( 'statuscheck-check-composer-dependencies-suggestions' );
+	}
+
+	/**
 	 * @return StatusValue
 	 */
 	public function perform(): StatusValue {
