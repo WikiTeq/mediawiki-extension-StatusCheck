@@ -25,7 +25,8 @@
 				"MediaWiki\\Extension\\StatusCheck\\Checks\\ComposerDependenciesCheck",
 				"MediaWiki\\Extension\\StatusCheck\\Checks\\EmailSendCheck",
 				"MediaWiki\\Extension\\StatusCheck\\Checks\\FileUploadCheck",
-				"MediaWiki\\Extension\\StatusCheck\\Checks\\StuckJobsCheck"
+				"MediaWiki\\Extension\\StatusCheck\\Checks\\StuckJobsCheck",
+				"MediaWiki\\Extension\\StatusCheck\\Checks\\SearchCheck"
 			]
 		}
 	},

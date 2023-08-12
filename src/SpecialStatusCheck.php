@@ -74,6 +74,9 @@ class SpecialStatusCheck extends SpecialPage {
 					$out->addHTML( '<li class="status-check-error">' );
 					$out->addHTML( $errorText );
 					$out->addHTML( '</li>' );
+					$out->addHTML( '<li class="status-check-suggestions">' );
+					$out->addHTML( $checkResult->getCheck()->getMitigationSuggestions() );
+					$out->addHTML( '</li>' );
 				}
 			} else {
 				$out->addHTML( '<li class="status-check-success">' );

@@ -17,5 +17,7 @@
 	"statuscheck-check-file-upload-suggestions": "Verify upload directory configuration and file permissions",
 	"statuscheck-check-stuck-jobs": "Checking for stuck jobs",
 	"statuscheck-check-stuck-jobs-suggestions": "Verify job details and ensure underlying issues are fixed, then re-queue the jobs",
+	"statuscheck-check-search": "Checking search engine",
+	"statuscheck-check-search-suggestions": "Verify the search is not disabled and the search service is alive",
 	"statuscheck-generic-error": "$1"
 }

@@ -4,10 +4,6 @@ namespace MediaWiki\Extension\StatusCheck\Api;
 
 use ApiBase;
 use MediaWiki\Extension\StatusCheck\CheckResult;
-use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
-use MediaWiki\Extension\StatusCheck\Checks\EmailSendCheck;
-use MediaWiki\Extension\StatusCheck\Checks\FileUploadCheck;
-use MediaWiki\Extension\StatusCheck\Checks\StuckJobsCheck;
 use MediaWiki\Extension\StatusCheck\ChecksRunner;
 use MediaWiki\Extension\StatusCheck\RunResult;
 

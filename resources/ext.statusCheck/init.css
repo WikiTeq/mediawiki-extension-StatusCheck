@@ -5,3 +5,7 @@ li.status-check-error {
 li.status-check-success {
 	color: green;
 }
+
+li.status-check-suggestions {
+	color: blue;
+}
