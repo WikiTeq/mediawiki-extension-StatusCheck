@@ -9,7 +9,6 @@ class CheckResult {
 
 	public const STATUS_RAW_SUCCESS = 'OK';
 	public const STATUS_RAW_FAIL = 'FAIL';
-	public const STATUS_RAW_MANUAL = 'MANUAL';
 
 	/**
 	 * @var StatusValue

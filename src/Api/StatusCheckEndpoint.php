@@ -7,6 +7,7 @@ use MediaWiki\Extension\StatusCheck\CheckResult;
 use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
 use MediaWiki\Extension\StatusCheck\Checks\EmailSendCheck;
 use MediaWiki\Extension\StatusCheck\Checks\FileUploadCheck;
+use MediaWiki\Extension\StatusCheck\Checks\StuckJobsCheck;
 use MediaWiki\Extension\StatusCheck\ChecksRunner;
 use MediaWiki\Extension\StatusCheck\RunResult;
 
@@ -25,9 +26,10 @@ class StatusCheckEndpoint extends ApiBase {
 		];
 
 		$runner = new ChecksRunner();
-		$runner->addCheck( new ComposerDependenciesCheck() );
-		$runner->addCheck( new EmailSendCheck() );
-		$runner->addCheck( new FileUploadCheck() );
+		// $runner->addCheck( new ComposerDependenciesCheck() );
+		// $runner->addCheck( new EmailSendCheck() );
+		// $runner->addCheck( new FileUploadCheck() );
+		$runner->addCheck( new StuckJobsCheck() );
 		$result = $runner->run();
 
 		foreach ( $result->getCheckResults() as $checkResult ) {

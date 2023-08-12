@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\StatusCheck;
 
 use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
 use MediaWiki\Extension\StatusCheck\Checks\FileUploadCheck;
+use MediaWiki\Extension\StatusCheck\Checks\StuckJobsCheck;
 use SpecialPage;
 
 class SpecialStatusCheck extends SpecialPage {
@@ -30,7 +31,7 @@ class SpecialStatusCheck extends SpecialPage {
 		$out->addHTML( '<ul>' );
 
 		$runner = new ChecksRunner();
-		$runner->addCheck( new FileUploadCheck() );
+		$runner->addCheck( new StuckJobsCheck() );
 		$result = $runner->run();
 
 		foreach ( $result->getCheckResults() as $checkResult ) {
