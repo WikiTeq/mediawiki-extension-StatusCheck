@@ -6,7 +6,7 @@
 	},
 	"statuscheck-desc": "{{desc|name=StatusCheck|url=https://www.mediawiki.org/wiki/Extension:StatusCheck}}",
 	"statuscheck": "special page title",
-	"action-statuscheck": "action desc",
+	"action-status-check": "action desc",
 	"statuscheck-title": "special page title",
 	"statuscheck-check-composer-dependencies": "composer title",
 	"statuscheck-check-composer-dependencies-suggestions": "composer suggestion",
@@ -14,5 +14,7 @@
 	"statuscheck-check-email-send-suggestions": "email suggestion",
 	"statuscheck-check-file-upload": "file upload title",
 	"statuscheck-check-file-upload-suggestions": "file upload suggestion",
+	"statuscheck-check-stuck-jobs": "stuck jobs title",
+	"statuscheck-check-stuck-jobs-suggestions": "stuck jobs suggestion",
 	"statuscheck-generic-error": "generic error text"
 }
