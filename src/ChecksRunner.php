@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\StatusCheck;
 
 use MediaWiki\Extension\StatusCheck\Checks\BaseCheck;
+use MediaWiki\MediaWikiServices;
 
 class ChecksRunner {
 
@@ -10,11 +11,6 @@ class ChecksRunner {
 	 * @var BaseCheck[]
 	 */
 	private array $checks = [];
-
-	/**
-	 * @var bool
-	 */
-	private bool $isGood = true;
 
 	/**
 	 * @param BaseCheck $check
@@ -40,6 +36,20 @@ class ChecksRunner {
 			);
 		}
 		return $result;
+	}
+
+	/**
+	 * @return void
+	 */
+	public function enableDefaultChecks() {
+		$checksToRun = MediaWikiServices::getInstance()
+			->getConfigFactory()
+			->makeConfig( 'StatusCheck' )
+			->get( 'StatusCheckDefaultSet' );
+
+		foreach ( $checksToRun as $checkToRun ) {
+			$this->addCheck( new $checkToRun() );
+		}
 	}
 
 }

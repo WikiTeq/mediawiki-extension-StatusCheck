@@ -59,10 +59,7 @@ class SpecialStatusCheck extends SpecialPage {
 		$out->addHTML( '<ul>' );
 
 		$runner = new ChecksRunner();
-		$runner->addCheck( new ComposerDependenciesCheck() );
-		$runner->addCheck( new EmailSendCheck() );
-		$runner->addCheck( new FileUploadCheck() );
-		$runner->addCheck( new StuckJobsCheck() );
+		$runner->enableDefaultChecks();
 		$result = $runner->run();
 
 		foreach ( $result->getCheckResults() as $checkResult ) {
