@@ -1,22 +1,29 @@
-This is a blank extension template. It doesn't really do anything on its own.
-It is intended to provide a boiler template for an actual MediaWiki extension.
+The extension allows to perform on-site checks for various issues
 
-If you are checking this out from Git and intend to use it, you may use the
-following commands to make a clean directory of just this template without the
-Git meta-data and other examples.
+# Requirements
 
-	cd extensions
-	git clone https://gerrit.wikimedia.org/r/mediawiki/extensions/BoilerPlate.git
-	cp -r BoilerPlate ./MyExtension
-	rm -rf ./MyExtension/.git
+* MediaWiki 1.35+
 
-This automates the recommended code checkers for PHP and JavaScript code in Wikimedia projects
-(see https://www.mediawiki.org/wiki/Continuous_integration/Entry_points).
-To take advantage of this automation.
+# Installation
 
-1. install nodejs, npm, and PHP composer
-2. change to the extension's directory
-3. `npm install`
-4. `composer install`
+* Clone the extension into the `extensions` directory
+* Add `wfLoadExtension( 'StatusCheck' );` to the bottom of your settings file
+* Configure as required
 
-Once set up, running `npm test` and `composer test` will run automated code checks.
+# Configuration
+
+* `$wgStatusCheckEmailAddress` - receiving email address for email function testing
+
+# Usage
+
+* Navigate to `Special:StatusCheck`
+* Use `statuscheck` API endpoint to run checks via API
+
+# Development
+
+* `src/Checks/BaseCheck.php` - is the base abstract class for creating new Checks
+* `src/ChecksRunner.php` - class performs Checks runs
+* `src/CheckResult.php` - class represents result of running a single Check
+* `src/RunResult.php` - represents result of running batch of checks via ChecksRunner
+
+See bundled checks to learn how to create new ones, e.g.: `src/Checks/EmailSendCheck.php`
