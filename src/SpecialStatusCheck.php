@@ -2,12 +2,6 @@
 
 namespace MediaWiki\Extension\StatusCheck;
 
-use Html;
-use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
-use MediaWiki\Extension\StatusCheck\Checks\EmailSendCheck;
-use MediaWiki\Extension\StatusCheck\Checks\FileUploadCheck;
-use MediaWiki\Extension\StatusCheck\Checks\StuckJobsCheck;
-use OOUI\ButtonWidget;
 use OOUIHTMLForm;
 use SpecialPage;
 
@@ -27,6 +21,7 @@ class SpecialStatusCheck extends SpecialPage {
 	 * @inheritDoc
 	 */
 	public function execute( $subPage ) {
+		$this->checkPermissions();
 		$out = $this->getOutput();
 		$out->setPageTitle( $this->msg( 'statuscheck-title' ) );
 		$out->addModules( 'ext.statusCheck' );
