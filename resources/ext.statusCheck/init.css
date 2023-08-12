@@ -1,0 +1,7 @@
+li.status-check-error {
+	color: red;
+}
+
+li.status-check-success {
+	color: green;
+}

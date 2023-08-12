@@ -55,7 +55,9 @@
 			"localBasePath": "resources/ext.statusCheck",
 			"remoteExtPath": "StatusCheck/resources/ext.statusCheck",
 			"dependencies": [],
-			"styles": [],
+			"styles": [
+				"init.css"
+			],
 			"packageFiles": [
 				"init.js"
 			],

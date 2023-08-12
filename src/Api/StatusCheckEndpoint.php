@@ -26,9 +26,9 @@ class StatusCheckEndpoint extends ApiBase {
 		];
 
 		$runner = new ChecksRunner();
-		// $runner->addCheck( new ComposerDependenciesCheck() );
-		// $runner->addCheck( new EmailSendCheck() );
-		// $runner->addCheck( new FileUploadCheck() );
+		$runner->addCheck( new ComposerDependenciesCheck() );
+		$runner->addCheck( new EmailSendCheck() );
+		$runner->addCheck( new FileUploadCheck() );
 		$runner->addCheck( new StuckJobsCheck() );
 		$result = $runner->run();
 

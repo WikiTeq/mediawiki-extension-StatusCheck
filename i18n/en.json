@@ -6,6 +6,7 @@
 	},
 	"statuscheck-desc": "This is an example extension",
 	"statuscheck": "MediaWiki status check",
+	"status-check-special-welcome": "Press the button to perform checks",
 	"action-statuscheck": "Perform site status checks",
 	"statuscheck-title": "MediaWiki status check",
 	"statuscheck-check-composer-dependencies": "Checking if Composer dependencies are up-to-date",
