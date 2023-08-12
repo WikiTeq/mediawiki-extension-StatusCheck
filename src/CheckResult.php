@@ -56,7 +56,7 @@ class CheckResult {
 	 */
 	public function getErrorsText(): array {
 		return array_map( static function ( array $error ) {
-			return $error['message'];
+			return wfMessage( $error['message'], ...$error['params'] );
 		}, $this->status->getErrors() );
 	}
 

@@ -49,10 +49,16 @@ class ComposerDependenciesCheck extends BaseCheck {
 		foreach ( $json->getRequiredDependencies() as $name => $version ) {
 			if ( isset( $installed[$name] ) ) {
 				if ( !SemVer::satisfies( $installed[$name]['version'], $version ) ) {
-					$status->error( "$name: {$installed[$name]['version']} installed, $version required." );
+					$status->error(
+						'statuscheck-generic-error',
+						"$name: {$installed[$name]['version']} installed, $version required."
+					);
 				}
 			} else {
-				$status->error( "$name: not installed, $version required." );
+				$status->error(
+					'statuscheck-generic-error',
+					"$name: not installed, $version required."
+				);
 			}
 		}
 

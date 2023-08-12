@@ -13,11 +13,15 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\StatusCheck\\": "src/"
 	},
+	"config_prefix": "wg",
 	"config": {
-		"StatusCheckEnableFoo": {
-			"description": "Enable the Foo feature.",
-			"value": true
+		"StatusCheckEmailAddress": {
+			"description": "Email address to test email sending",
+			"value": null
 		}
+	},
+	"ConfigRegistry": {
+		"StatusCheck": "GlobalVarConfig::newInstance"
 	},
 	"SpecialPages": {
 		"StatusCheck": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck"
