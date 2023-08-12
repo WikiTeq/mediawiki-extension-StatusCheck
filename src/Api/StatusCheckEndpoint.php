@@ -3,8 +3,10 @@
 namespace MediaWiki\Extension\StatusCheck\Api;
 
 use ApiBase;
+use MediaWiki\Extension\StatusCheck\CheckResult;
 use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
 use MediaWiki\Extension\StatusCheck\ChecksRunner;
+use MediaWiki\Extension\StatusCheck\RunResult;
 
 class StatusCheckEndpoint extends ApiBase {
 	/**
@@ -17,7 +19,7 @@ class StatusCheckEndpoint extends ApiBase {
 		$params = $this->extractRequestParams();
 
 		$response = [
-			'status' => 'OK',
+			'status' => RunResult::STATUS_RAW_SUCCESS,
 			'checkResults' => []
 		];
 
@@ -30,14 +32,14 @@ class StatusCheckEndpoint extends ApiBase {
 				'name' => $checkResult->getCheck()->getName(),
 				'description' => $checkResult->getCheck()->getDescription(),
 				'errors' => [],
-				'status' => 'OK'
+				'status' => CheckResult::STATUS_RAW_SUCCESS
 			];
 
 			if ( !$checkResult->isGood() ) {
 				foreach ( $checkResult->getErrorsText() as $errorText ) {
 					$responseItem['errors'][] = $errorText;
 				}
-				$responseItem['status'] = 'FAIL';
+				$responseItem['status'] = CheckResult::STATUS_RAW_FAIL;
 				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions();
 			}
 
@@ -45,7 +47,7 @@ class StatusCheckEndpoint extends ApiBase {
 		}
 
 		if ( !$result->isGood() ) {
-			$response['status'] = 'FAIL';
+			$response['status'] = RunResult::STATUS_RAW_FAIL;
 		}
 
 		$result = $this->getResult();

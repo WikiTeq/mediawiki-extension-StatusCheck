@@ -4,6 +4,9 @@ namespace MediaWiki\Extension\StatusCheck;
 
 class RunResult {
 
+	public const STATUS_RAW_SUCCESS = 'OK';
+	public const STATUS_RAW_FAIL = 'FAIL';
+
 	/**
 	 * @var CheckResult[]
 	 */
