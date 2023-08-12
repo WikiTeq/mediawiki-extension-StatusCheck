@@ -20,6 +20,14 @@ The extension allows to perform on-site checks for various issues
 * Navigate to `Special:StatusCheck`
 * Use `statuscheck` API endpoint to run checks via API
 
+# Bundled checks
+
+* Stuck jobs - verifies if there are any jobs with an excessive number of attempts
+* File uploads - verifies that files can be uploaded, no file permissions errors in place
+* Email sending - verified that email can be sent ( it sends a real email to the address specified in the configuration )
+* Composer dependencies - verifies that lock file and dependencies are in sync ( e.g., to catch situations when the wiki was updated but composer packages were not )
+* Search engine check - verified that search works and can find some text from the wiki homepage
+
 # Development
 
 * `src/Checks/BaseCheck.php` - is the base abstract class for creating new Checks
