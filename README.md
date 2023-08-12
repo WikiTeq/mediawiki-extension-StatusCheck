@@ -22,11 +22,11 @@ The extension allows to perform on-site checks for various issues
 
 # Bundled checks
 
-* **Stuck jobs** - verifies if there are any jobs with an excessive number of attempts
-* **File uploads** - verifies that files can be uploaded, no file permissions errors in place
-* **Email sending** - verified that email can be sent ( it sends a real email to the address specified in the configuration )
-* **Composer dependencies** - verifies that lock file and dependencies are in sync ( e.g., to catch situations when the wiki was updated but composer packages were not )
-* **Search engine check** - verified that search works and can find some text from the wiki homepage
+* [x] **Stuck jobs** - verifies if there are any jobs with an excessive number of attempts
+* [x] **File uploads** - verifies that files can be uploaded, no file permissions errors in place
+* [x] **Email sending** - verified that email can be sent ( it sends a real email to the address specified in the configuration )
+* [x] **Composer dependencies** - verifies that lock file and dependencies are in sync ( e.g., to catch situations when the wiki was updated but composer packages were not )
+* [x] **Search engine check** - verified that search works and can find some text from the wiki homepage
 
 # Permissions
 
