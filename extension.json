@@ -1,0 +1,59 @@
+{
+	"name": "StatusCheck",
+	"author": [
+		"WikiTeq"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:StatusCheck",
+	"descriptionmsg": "statuscheck-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\StatusCheck\\": "src/"
+	},
+	"config": {
+		"StatusCheckEnableFoo": {
+			"description": "Enable the Foo feature.",
+			"value": true
+		}
+	},
+	"SpecialPages": {
+		"StatusCheck": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck"
+	},
+	"AvailableRights": [
+		"status-check"
+	],
+	"GroupPermissions": {
+		"sysop": {
+			"status-check": true
+		}
+	},
+	"HookHandlers": {
+		"StatusCheckHooks": {
+			"class": "MediaWiki\\Extension\\StatusCheck\\Hooks"
+		}
+	},
+	"Hooks": {
+		"BeforePageDisplay": "StatusCheckHooks"
+	},
+	"MessagesDirs": {
+		"StatusCheck": [
+			"i18n"
+		]
+	},
+	"ResourceModules": {
+		"ext.statusCheck": {
+			"localBasePath": "resources/ext.statusCheck",
+			"remoteExtPath": "StatusCheck/resources/ext.statusCheck",
+			"dependencies": [],
+			"styles": [],
+			"packageFiles": [
+				"init.js"
+			],
+			"messages": []
+		}
+	},
+	"manifest_version": 2
+}

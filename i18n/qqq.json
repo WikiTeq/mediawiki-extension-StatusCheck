@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiTeq"
+		]
+	},
+	"statuscheck-desc": "{{desc|name=StatusCheck|url=https://www.mediawiki.org/wiki/Extension:StatusCheck}}",
+	"statuscheck": "special page title"
+}

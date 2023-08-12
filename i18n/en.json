@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiTeq"
+		]
+	},
+	"statuscheck-desc": "This is an example extension",
+	"statuscheck": "MediaWiki status check",
+	"statuscheck-title": "MediaWiki status check",
+	"statuscheck-check-composer-dependencies": "Checking if Composer dependencies are up-to-date"
+}
