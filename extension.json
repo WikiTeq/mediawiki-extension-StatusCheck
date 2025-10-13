@@ -57,8 +57,12 @@
 	},
 	"MessagesDirs": {
 		"StatusCheck": [
-			"i18n"
+			"i18n",
+			"i18n/api"
 		]
+	},
+	"ExtensionMessagesFiles": {
+		"StatusCheckAlias": "StatusCheck.alias.php"
 	},
 	"ResourceModules": {
 		"ext.statusCheck": {

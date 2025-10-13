@@ -29,7 +29,7 @@ abstract class BaseCheck {
 	abstract public function getMitigationSuggestions(): string;
 
 	/**
-	 * @return void
+	 * @return Config
 	 */
 	protected function getConfig(): Config {
 		return MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'StatusCheck' );

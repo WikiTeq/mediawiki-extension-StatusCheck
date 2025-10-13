@@ -1,11 +1,11 @@
 li.status-check-error {
-	color: red;
+	color: #f00;
 }
 
 li.status-check-success {
-	color: green;
+	color: #080;
 }
 
 li.status-check-suggestions {
-	color: blue;
+	color: #00f;
 }

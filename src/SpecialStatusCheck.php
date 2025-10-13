@@ -1,7 +1,12 @@
 <?php
 
+// We run Phan with both MW 1.39 and MW 1.43, the suppression from 1.39 isn't
+// needed on 1.43 and phan would complain about that
+// @phan-file-suppress UnusedPluginSuppression,UnusedPluginFileSuppression
+
 namespace MediaWiki\Extension\StatusCheck;
 
+use Html;
 use OOUIHTMLForm;
 use SpecialPage;
 
@@ -23,7 +28,15 @@ class SpecialStatusCheck extends SpecialPage {
 	public function execute( $subPage ) {
 		$this->checkPermissions();
 		$out = $this->getOutput();
-		$out->setPageTitle( $this->msg( 'statuscheck-title' ) );
+		if ( version_compare( MW_VERSION, '1.41', '>=' ) ) {
+			// 1.41 deprecated calling setPageTitle with a string and introduced
+			// setPageTitleMsg()
+			// Method doesn't exist for Phan on 1.39
+			// @phan-suppress-next-line PhanUndeclaredMethod
+			$out->setPageTitleMsg( $this->msg( 'statuscheck-title' ) );
+		} else {
+			$out->setPageTitle( $this->msg( 'statuscheck-title' ) );
+		}
 		$out->addModules( 'ext.statusCheck' );
 		$out->enableOOUI();
 		$this->performWelcome();
@@ -58,34 +71,42 @@ class SpecialStatusCheck extends SpecialPage {
 		$result = $runner->run();
 
 		foreach ( $result->getCheckResults() as $checkResult ) {
-			$out->addHTML( '<ul>' );
-
-			$out->addHTML( '<li>' );
-			$out->addHTML( $checkResult->getCheck()->getName() );
-			$out->addHTML( '</li>' );
-
-			$out->addHTML( '<ul>' );
-			$out->addHTML( '<li>' );
-			$out->addHTML( $checkResult->getCheck()->getDescription() );
-			$out->addHTML( '</li>' );
+			$checkDetails = [];
+			$checkDetails[] = Html::rawElement(
+				'li',
+				[],
+				$checkResult->getCheck()->getDescription()
+			);
 
 			if ( !$checkResult->isGood() ) {
 				foreach ( $checkResult->getErrorsText() as $errorText ) {
-					$out->addHTML( '<li class="status-check-error">' );
-					$out->addHTML( $errorText );
-					$out->addHTML( '</li>' );
-					$out->addHTML( '<li class="status-check-suggestions">' );
-					$out->addHTML( $checkResult->getCheck()->getMitigationSuggestions() );
-					$out->addHTML( '</li>' );
+					$checkDetails[] = Html::rawElement(
+						'li',
+						[ 'class' => 'status-check-error' ],
+						$errorText
+					);
+					$checkDetails[] = Html::rawElement(
+						'li',
+						[ 'class' => 'status-check-suggestions' ],
+						$checkResult->getCheck()->getMitigationSuggestions()
+					);
 				}
 			} else {
-				$out->addHTML( '<li class="status-check-success">' );
-				$out->addHTML( 'OK' );
-				$out->addHTML( '</li>' );
+				$checkDetails[] = Html::rawElement(
+					'li',
+					[ 'class' => 'status-check-success' ],
+					'OK'
+				);
 			}
 
-			$out->addHTML( '</ul>' );
-			$out->addHTML( '</ul>' );
+			$out->addHTML(
+				Html::rawElement(
+					'li',
+					[],
+					$checkResult->getCheck()->getName()
+						. Html::rawElement( 'ul', [], implode( "\n", $checkDetails ) )
+				)
+			);
 		}
 
 		$out->addHTML( '</ul>' );

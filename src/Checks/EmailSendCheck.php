@@ -28,7 +28,7 @@ class EmailSendCheck extends BaseCheck {
 	 */
 	public function perform(): StatusValue {
 		$to = $this->getConfig()->get( 'StatusCheckEmailAddress' );
-		if ( empty( $to ) ) {
+		if ( !$to ) {
 			return StatusValue::newGood()->error(
 				'statuscheck-generic-error',
 				'$wgStatusCheckEmailAddress variable must be set'

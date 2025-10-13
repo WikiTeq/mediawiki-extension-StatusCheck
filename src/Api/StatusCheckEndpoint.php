@@ -62,13 +62,6 @@ class StatusCheckEndpoint extends ApiBase {
 	/**
 	 * @inheritDoc
 	 */
-//	public function needsToken() {
-//		return true;
-//	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function mustBePosted() {
 		return true;
 	}
