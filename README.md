@@ -13,7 +13,6 @@ The extension allows to perform on-site checks for various issues
 # Configuration
 
 * `$wgStatusCheckEmailAddress` - receiving email address for email function testing
-* `$wgStatusCheckDefaultSet` - list of Checks classes to include into default run
 
 # Usage
 

@@ -3,9 +3,21 @@
 namespace MediaWiki\Extension\StatusCheck;
 
 use MediaWiki\Extension\StatusCheck\Checks\BaseCheck;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
+use MediaWiki\Extension\StatusCheck\Checks\EmailSendCheck;
+use MediaWiki\Extension\StatusCheck\Checks\FileUploadCheck;
+use MediaWiki\Extension\StatusCheck\Checks\SearchCheck;
+use MediaWiki\Extension\StatusCheck\Checks\StuckJobsCheck;
 
 class ChecksRunner {
+
+	private const DEFAULT_CHECKS = [
+		'ComposerDependencies' => ComposerDependenciesCheck::class,
+		'EmailSend' => EmailSendCheck::class,
+		'FileUpload' => FileUploadCheck::class,
+		'Search' => SearchCheck::class,
+		'StuckJobs' => StuckJobsCheck::class,
+	];
 
 	/**
 	 * @var BaseCheck[]
@@ -42,12 +54,7 @@ class ChecksRunner {
 	 * @return void
 	 */
 	public function enableDefaultChecks() {
-		$checksToRun = MediaWikiServices::getInstance()
-			->getConfigFactory()
-			->makeConfig( 'StatusCheck' )
-			->get( 'StatusCheckDefaultSet' );
-
-		foreach ( $checksToRun as $checkToRun ) {
+		foreach ( self::DEFAULT_CHECKS as $checkToRun ) {
 			$this->addCheck( new $checkToRun() );
 		}
 	}
