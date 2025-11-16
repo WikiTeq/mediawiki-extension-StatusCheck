@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\StatusCheck\Checks;
 
-use MediaWiki\MediaWikiServices;
+use RepoGroup;
 use StatusValue;
 use Title;
 use UploadBase;
@@ -15,11 +15,14 @@ use User;
  */
 class FileUploadCheck extends BaseCheck {
 
-	public function __construct() {
+	private RepoGroup $repoGroup;
+
+	public function __construct( RepoGroup $repoGroup ) {
 		parent::__construct(
 			'statuscheck-check-file-upload',
 			'statuscheck-check-file-upload-suggestions'
 		);
+		$this->repoGroup = $repoGroup;
 	}
 
 	/**
@@ -37,7 +40,7 @@ class FileUploadCheck extends BaseCheck {
 		$title = Title::newFromText( $fileName, NS_FILE );
 		$user = User::newSystemUser( User::MAINTENANCE_SCRIPT_USER );
 
-		$image = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
+		$image = $this->repoGroup->getLocalRepo()->newFile( $title );
 		if ( $image->exists() ) {
 			$image->deleteFile( 'StatusCheck test upload cleanup', $user, true );
 		}

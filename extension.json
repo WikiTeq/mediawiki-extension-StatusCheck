@@ -24,13 +24,23 @@
 		"StatusCheck": "GlobalVarConfig::newInstance"
 	},
 	"SpecialPages": {
-		"StatusCheck": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck"
+		"StatusCheck": {
+			"class": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck",
+			"services": [
+				"ObjectFactory"
+			]
+		}
 	},
 	"AvailableRights": [
 		"status-check"
 	],
 	"APIModules": {
-		"statuscheck": "MediaWiki\\Extension\\StatusCheck\\Api\\StatusCheckEndpoint"
+		"statuscheck": {
+			"class": "MediaWiki\\Extension\\StatusCheck\\Api\\StatusCheckEndpoint",
+			"services": [
+				"ObjectFactory"
+			]
+		}
 	},
 	"GroupPermissions": {
 		"sysop": {

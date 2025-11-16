@@ -3,11 +3,25 @@
 namespace MediaWiki\Extension\StatusCheck\Api;
 
 use ApiBase;
+use ApiMain;
 use MediaWiki\Extension\StatusCheck\CheckResult;
 use MediaWiki\Extension\StatusCheck\ChecksRunner;
 use MediaWiki\Extension\StatusCheck\RunResult;
+use Wikimedia\ObjectFactory\ObjectFactory;
 
 class StatusCheckEndpoint extends ApiBase {
+
+	private ObjectFactory $objectFactory;
+
+	public function __construct(
+		ApiMain $main,
+		string $action,
+		ObjectFactory $objectFactory
+	) {
+		parent::__construct( $main, $action );
+		$this->objectFactory = $objectFactory;
+	}
+
 	/**
 	 * @inheritDoc
 	 */
@@ -22,7 +36,9 @@ class StatusCheckEndpoint extends ApiBase {
 		];
 
 		$runner = new ChecksRunner();
-		$runner->enableDefaultChecks();
+		$runner->enableDefaultChecks(
+			$this->objectFactory
+		);
 		$result = $runner->run();
 
 		foreach ( $result->getCheckResults() as $checkResult ) {

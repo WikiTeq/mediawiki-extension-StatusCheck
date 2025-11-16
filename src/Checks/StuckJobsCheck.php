@@ -9,23 +9,26 @@ namespace MediaWiki\Extension\StatusCheck\Checks;
 
 use Job;
 use JobQueueError;
-use MediaWiki\MediaWikiServices;
+use JobQueueGroup;
 use StatusValue;
 
 class StuckJobsCheck extends BaseCheck {
 
-	public function __construct() {
+	private JobQueueGroup $jobQueueGroup;
+
+	public function __construct( JobQueueGroup $jobQueueGroup ) {
 		parent::__construct(
 			'statuscheck-check-stuck-jobs',
 			'statuscheck-check-stuck-jobs-suggestions'
 		);
+		$this->jobQueueGroup = $jobQueueGroup;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function perform(): StatusValue {
-		$group = MediaWikiServices::getInstance()->getJobQueueGroup();
+		$group = $this->jobQueueGroup;
 
 		$status = StatusValue::newGood();
 

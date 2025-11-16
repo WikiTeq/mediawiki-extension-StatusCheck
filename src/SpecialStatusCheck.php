@@ -9,17 +9,21 @@ namespace MediaWiki\Extension\StatusCheck;
 use Html;
 use OOUIHTMLForm;
 use SpecialPage;
+use Wikimedia\ObjectFactory\ObjectFactory;
 
 class SpecialStatusCheck extends SpecialPage {
 
+	private ObjectFactory $objectFactory;
+
 	/**
-	 * @inheritDoc
+	 * @param ObjectFactory $objectFactory
 	 */
-	public function __construct() {
+	public function __construct( ObjectFactory $objectFactory ) {
 		parent::__construct(
 			'StatusCheck',
 			'status-check'
 		);
+		$this->objectFactory = $objectFactory;
 	}
 
 	/**
@@ -68,7 +72,9 @@ class SpecialStatusCheck extends SpecialPage {
 		$out->addHTML( '<ul>' );
 
 		$runner = new ChecksRunner();
-		$runner->enableDefaultChecks();
+		$runner->enableDefaultChecks(
+			$this->objectFactory
+		);
 		$result = $runner->run();
 
 		foreach ( $result->getCheckResults() as $checkResult ) {
