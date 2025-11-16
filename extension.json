@@ -47,14 +47,6 @@
 			"status-check": true
 		}
 	},
-	"HookHandlers": {
-		"StatusCheckHooks": {
-			"class": "MediaWiki\\Extension\\StatusCheck\\Hooks"
-		}
-	},
-	"Hooks": {
-		"BeforePageDisplay": "StatusCheckHooks"
-	},
 	"MessagesDirs": {
 		"StatusCheck": [
 			"i18n",
@@ -68,14 +60,9 @@
 		"ext.statusCheck": {
 			"localBasePath": "resources/ext.statusCheck",
 			"remoteExtPath": "StatusCheck/resources/ext.statusCheck",
-			"dependencies": [],
 			"styles": [
 				"init.css"
-			],
-			"packageFiles": [
-				"init.js"
-			],
-			"messages": []
+			]
 		}
 	},
 	"manifest_version": 2

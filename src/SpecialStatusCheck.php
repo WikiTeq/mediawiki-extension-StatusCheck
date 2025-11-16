@@ -37,7 +37,7 @@ class SpecialStatusCheck extends SpecialPage {
 		} else {
 			$out->setPageTitle( $this->msg( 'statuscheck-title' ) );
 		}
-		$out->addModules( 'ext.statusCheck' );
+		$out->addModuleStyles( 'ext.statusCheck' );
 		$out->enableOOUI();
 		$this->performWelcome();
 	}
