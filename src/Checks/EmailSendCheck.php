@@ -9,11 +9,11 @@ use UserMailer;
 
 class EmailSendCheck extends BaseCheck {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-email-send' );
+	public function __construct() {
+		parent::__construct(
+			'statuscheck-check-email-send',
+			'statuscheck-check-email-send-suggestions'
+		);
 	}
 
 	/**
@@ -43,12 +43,5 @@ class EmailSendCheck extends BaseCheck {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-email-send-suggestions' );
 	}
 }

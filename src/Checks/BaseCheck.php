@@ -8,6 +8,17 @@ use StatusValue;
 
 abstract class BaseCheck {
 
+	private string $descriptionKey;
+	private string $mitigationKey;
+
+	public function __construct(
+		string $descriptionKey,
+		string $mitigationKey
+	) {
+		$this->descriptionKey = $descriptionKey;
+		$this->mitigationKey = $mitigationKey;
+	}
+
 	/**
 	 * @return string
 	 */
@@ -18,7 +29,9 @@ abstract class BaseCheck {
 	/**
 	 * @return string
 	 */
-	abstract public function getDescription(): string;
+	public function getDescription(): string {
+		return wfMessage( $this->descriptionKey );
+	}
 
 	/**
 	 * @return StatusValue
@@ -28,7 +41,9 @@ abstract class BaseCheck {
 	/**
 	 * @return string
 	 */
-	abstract public function getMitigationSuggestions(): string;
+	public function getMitigationSuggestions(): string {
+		return wfMessage( $this->mitigationKey );
+	}
 
 	/**
 	 * @return Config

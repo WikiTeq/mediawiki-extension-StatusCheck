@@ -15,11 +15,11 @@ use User;
  */
 class FileUploadCheck extends BaseCheck {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-file-upload' );
+	public function __construct() {
+		parent::__construct(
+			'statuscheck-check-file-upload',
+			'statuscheck-check-file-upload-suggestions'
+		);
 	}
 
 	/**
@@ -57,12 +57,5 @@ class FileUploadCheck extends BaseCheck {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-file-upload-suggestions' );
 	}
 }

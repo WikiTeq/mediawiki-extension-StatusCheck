@@ -14,11 +14,11 @@ use StatusValue;
 
 class StuckJobsCheck extends BaseCheck {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-stuck-jobs' );
+	public function __construct() {
+		parent::__construct(
+			'statuscheck-check-stuck-jobs',
+			'statuscheck-check-stuck-jobs-suggestions'
+		);
 	}
 
 	/**
@@ -67,12 +67,5 @@ class StuckJobsCheck extends BaseCheck {
 		}
 
 		return $status;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-stuck-jobs-suggestions' );
 	}
 }

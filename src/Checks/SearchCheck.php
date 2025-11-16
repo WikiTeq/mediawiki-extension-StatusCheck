@@ -11,11 +11,11 @@ use Title;
 
 class SearchCheck extends BaseCheck {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-search' );
+	public function __construct() {
+		parent::__construct(
+			'statuscheck-check-search',
+			'statuscheck-check-search-suggestions'
+		);
 	}
 
 	/**
@@ -82,12 +82,5 @@ class SearchCheck extends BaseCheck {
 			return $filtered[0];
 		}
 		return $words[0];
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-search-suggestions' );
 	}
 }
