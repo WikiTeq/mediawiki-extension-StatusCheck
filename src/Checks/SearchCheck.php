@@ -14,13 +14,6 @@ class SearchCheck extends BaseCheck {
 	/**
 	 * @inheritDoc
 	 */
-	public function getName(): string {
-		return self::class;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function getDescription(): string {
 		return wfMessage( 'statuscheck-check-search' );
 	}

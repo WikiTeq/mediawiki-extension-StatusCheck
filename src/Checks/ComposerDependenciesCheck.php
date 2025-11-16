@@ -16,13 +16,6 @@ class ComposerDependenciesCheck extends BaseCheck {
 	/**
 	 * @return string
 	 */
-	public function getName(): string {
-		return self::class;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getDescription(): string {
 		return wfMessage( 'statuscheck-check-composer-dependencies' );
 	}

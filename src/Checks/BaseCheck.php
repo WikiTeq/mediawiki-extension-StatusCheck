@@ -11,7 +11,9 @@ abstract class BaseCheck {
 	/**
 	 * @return string
 	 */
-	abstract public function getName(): string;
+	public function getName(): string {
+		return static::class;
+	}
 
 	/**
 	 * @return string
