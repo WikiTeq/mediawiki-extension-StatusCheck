@@ -47,7 +47,7 @@ class SpecialStatusCheck extends SpecialPage {
 	 */
 	private function performWelcome() {
 		$form = new OOUIHTMLForm( [], $this->getContext() );
-		$form->setSubmitText( 'Run checks' );
+		$form->setSubmitTextMsg( 'statuscheck-run-checks' );
 		$form->setSubmitCallback(
 			[
 				$this,
@@ -63,7 +63,8 @@ class SpecialStatusCheck extends SpecialPage {
 	 */
 	public function performChecks() {
 		$out = $this->getOutput();
-		$out->addHTML( '<br>Running checks...' );
+		$out->addHTML( '<br>' );
+		$out->addWikiMsg( 'statuscheck-running-checks' );
 		$out->addHTML( '<ul>' );
 
 		$runner = new ChecksRunner();
@@ -95,7 +96,7 @@ class SpecialStatusCheck extends SpecialPage {
 				$checkDetails[] = Html::rawElement(
 					'li',
 					[ 'class' => 'status-check-success' ],
-					'OK'
+					$this->msg( 'statuscheck-check-success' )->parse()
 				);
 			}
 

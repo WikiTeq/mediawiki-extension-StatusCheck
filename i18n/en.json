@@ -10,6 +10,8 @@
 	"action-status-check": "perform site status checks",
 	"right-status-check": "Perform site status checks",
 	"statuscheck-title": "MediaWiki status check",
+	"statuscheck-run-checks": "Run checks",
+	"statuscheck-running-checks": "Running checks...",
 	"statuscheck-check-composer-dependencies": "Checking if Composer dependencies are up-to-date",
 	"statuscheck-check-composer-dependencies-suggestions": "Run composer update --no-dev",
 	"statuscheck-check-email-send": "Checking if email sending works as expected",
@@ -20,5 +22,6 @@
 	"statuscheck-check-stuck-jobs-suggestions": "Verify job details and ensure underlying issues are fixed, then re-queue the jobs",
 	"statuscheck-check-search": "Checking search engine",
 	"statuscheck-check-search-suggestions": "Verify the search is not disabled and the search service is alive",
+	"statuscheck-check-success": "OK",
 	"statuscheck-generic-error": "$1"
 }
