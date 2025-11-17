@@ -86,19 +86,23 @@ class SpecialStatusCheck extends SpecialPage {
 				$checkResult->getCheck()->getDescription()
 			);
 
-			if ( !$checkResult->isGood() ) {
-				foreach ( $checkResult->getErrorsText() as $errorText ) {
+			$status = $checkResult->getStatus();
+			if ( !$status->isGood() ) {
+				foreach ( $status->getErrors() as $errorDetails ) {
 					$checkDetails[] = Html::rawElement(
 						'li',
 						[ 'class' => 'status-check-error' ],
-						$errorText
-					);
-					$checkDetails[] = Html::rawElement(
-						'li',
-						[ 'class' => 'status-check-suggestions' ],
-						$checkResult->getCheck()->getMitigationSuggestions()
+						$this->msg(
+							$errorDetails['message'],
+							...$errorDetails['params']
+						)->parse()
 					);
 				}
+				$checkDetails[] = Html::rawElement(
+					'li',
+					[ 'class' => 'status-check-suggestions' ],
+					$checkResult->getCheck()->getMitigationSuggestions()
+				);
 			} else {
 				$checkDetails[] = Html::rawElement(
 					'li',

@@ -28,19 +28,6 @@ class RunResult {
 	}
 
 	/**
-	 * @return bool
-	 */
-	public function isGood(): bool {
-		foreach ( $this->checkResults as $checkResult ) {
-			if ( !$checkResult->isGood() ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * @return CheckResult[]
 	 */
 	public function getCheckResults(): array {

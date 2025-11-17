@@ -50,19 +50,21 @@ class StatusCheckEndpoint extends ApiBase {
 				'status' => CheckResult::STATUS_RAW_SUCCESS
 			];
 
-			if ( !$checkResult->isGood() ) {
-				foreach ( $checkResult->getErrorsText() as $errorText ) {
-					$responseItem['errors'][] = $errorText;
+			$status = $checkResult->getStatus();
+			if ( !$status->isGood() ) {
+				foreach ( $status->getErrors() as $errorDetails ) {
+					$responseItem['errors'][] = $this->msg(
+						$errorDetails['message'],
+						...$errorDetails['params']
+					)->parse();
 				}
 				$responseItem['status'] = CheckResult::STATUS_RAW_FAIL;
 				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions();
+
+				$response['status'] = RunResult::STATUS_RAW_FAIL;
 			}
 
 			$response['checkResults'][] = $responseItem;
-		}
-
-		if ( !$result->isGood() ) {
-			$response['status'] = RunResult::STATUS_RAW_FAIL;
 		}
 
 		$result = $this->getResult();

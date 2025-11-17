@@ -43,20 +43,4 @@ class CheckResult {
 		return $this->status;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isGood(): bool {
-		return $this->status->isGood();
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getErrorsText(): array {
-		return array_map( static function ( array $error ) {
-			return wfMessage( $error['message'], ...$error['params'] );
-		}, $this->status->getErrors() );
-	}
-
 }
