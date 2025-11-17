@@ -76,9 +76,9 @@ class SpecialStatusCheck extends SpecialPage {
 			$this->objectFactory,
 			$this->getConfig()
 		);
-		$result = $runner->run();
+		$results = $runner->run();
 
-		foreach ( $result->getCheckResults() as $checkResult ) {
+		foreach ( $results as $checkResult ) {
 			$checkDetails = [];
 			$checkDetails[] = Html::rawElement(
 				'li',

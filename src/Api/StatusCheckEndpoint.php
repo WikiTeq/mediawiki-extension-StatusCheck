@@ -6,7 +6,6 @@ use ApiBase;
 use ApiMain;
 use MediaWiki\Extension\StatusCheck\CheckResult;
 use MediaWiki\Extension\StatusCheck\ChecksRunner;
-use MediaWiki\Extension\StatusCheck\RunResult;
 use Wikimedia\ObjectFactory\ObjectFactory;
 
 class StatusCheckEndpoint extends ApiBase {
@@ -31,7 +30,7 @@ class StatusCheckEndpoint extends ApiBase {
 		$params = $this->extractRequestParams();
 
 		$response = [
-			'status' => RunResult::STATUS_RAW_SUCCESS,
+			'status' => CheckResult::STATUS_RAW_SUCCESS,
 			'checkResults' => []
 		];
 
@@ -40,9 +39,9 @@ class StatusCheckEndpoint extends ApiBase {
 			$this->objectFactory,
 			$this->getConfig()
 		);
-		$result = $runner->run();
+		$results = $runner->run();
 
-		foreach ( $result->getCheckResults() as $checkResult ) {
+		foreach ( $results as $checkResult ) {
 			$responseItem = [
 				'name' => $checkResult->getCheck()->getName(),
 				'description' => $checkResult->getCheck()->getDescription(),
@@ -61,7 +60,7 @@ class StatusCheckEndpoint extends ApiBase {
 				$responseItem['status'] = CheckResult::STATUS_RAW_FAIL;
 				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions();
 
-				$response['status'] = RunResult::STATUS_RAW_FAIL;
+				$response['status'] = CheckResult::STATUS_RAW_FAIL;
 			}
 
 			$response['checkResults'][] = $responseItem;

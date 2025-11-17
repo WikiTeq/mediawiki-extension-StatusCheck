@@ -63,20 +63,15 @@ class ChecksRunner {
 	}
 
 	/**
-	 * @return RunResult
+	 * @return CheckResult[]
 	 */
 	public function run() {
-		$result = new RunResult();
+		$results = [];
 		foreach ( $this->checks as $check ) {
 			$status = $check->perform();
-			$result->addResult(
-				new CheckResult(
-					$check,
-					$status
-				)
-			);
+			$results[] = new CheckResult( $check, $status );
 		}
-		return $result;
+		return $results;
 	}
 
 	/**
