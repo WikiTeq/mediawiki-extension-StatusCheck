@@ -73,7 +73,8 @@ class SpecialStatusCheck extends SpecialPage {
 
 		$runner = new ChecksRunner();
 		$runner->enableDefaultChecks(
-			$this->objectFactory
+			$this->objectFactory,
+			$this->getConfig()
 		);
 		$result = $runner->run();
 

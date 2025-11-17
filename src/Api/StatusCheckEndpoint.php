@@ -37,7 +37,8 @@ class StatusCheckEndpoint extends ApiBase {
 
 		$runner = new ChecksRunner();
 		$runner->enableDefaultChecks(
-			$this->objectFactory
+			$this->objectFactory,
+			$this->getConfig()
 		);
 		$result = $runner->run();
 

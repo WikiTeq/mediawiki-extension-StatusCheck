@@ -20,9 +20,6 @@
 			"value": null
 		}
 	},
-	"ConfigRegistry": {
-		"StatusCheck": "GlobalVarConfig::newInstance"
-	},
 	"SpecialPages": {
 		"StatusCheck": {
 			"class": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck",

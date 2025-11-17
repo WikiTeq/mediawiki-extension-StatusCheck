@@ -4,30 +4,40 @@ namespace MediaWiki\Extension\StatusCheck\Checks;
 
 use Exception;
 use MailAddress;
+use MediaWiki\Config\ServiceOptions;
 use StatusValue;
 use UserMailer;
 
 class EmailSendCheck extends BaseCheck {
 
-	public function __construct() {
+	public const CONSTRUCTOR_OPTIONS = [
+		'StatusCheckEmailAddress',
+		'PasswordSender',
+	];
+
+	private ServiceOptions $options;
+
+	public function __construct( ServiceOptions $options ) {
 		parent::__construct(
 			'statuscheck-check-email-send',
 			'statuscheck-check-email-send-suggestions'
 		);
+		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
+		$this->options = $options;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function perform(): StatusValue {
-		$to = $this->getConfig()->get( 'StatusCheckEmailAddress' );
+		$to = $this->options->get( 'StatusCheckEmailAddress' );
 		if ( !$to ) {
 			return StatusValue::newGood()->error(
 				'statuscheck-generic-error',
 				'$wgStatusCheckEmailAddress variable must be set'
 			);
 		}
-		$from = $this->getConfig()->get( 'PasswordSender' );
+		$from = $this->options->get( 'PasswordSender' );
 		try {
 			$result = UserMailer::send(
 				new MailAddress( $to ),

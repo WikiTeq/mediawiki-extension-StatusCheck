@@ -2,8 +2,6 @@
 
 namespace MediaWiki\Extension\StatusCheck\Checks;
 
-use Config;
-use MediaWiki\MediaWikiServices;
 use StatusValue;
 
 abstract class BaseCheck {
@@ -43,13 +41,6 @@ abstract class BaseCheck {
 	 */
 	public function getMitigationSuggestions(): string {
 		return wfMessage( $this->mitigationKey );
-	}
-
-	/**
-	 * @return Config
-	 */
-	protected function getConfig(): Config {
-		return MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'StatusCheck' );
 	}
 
 }

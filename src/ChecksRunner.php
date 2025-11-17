@@ -2,6 +2,8 @@
 
 namespace MediaWiki\Extension\StatusCheck;
 
+use Config;
+use MediaWiki\Config\ServiceOptions;
 use MediaWiki\Extension\StatusCheck\Checks\BaseCheck;
 use MediaWiki\Extension\StatusCheck\Checks\ComposerDependenciesCheck;
 use MediaWiki\Extension\StatusCheck\Checks\EmailSendCheck;
@@ -75,8 +77,20 @@ class ChecksRunner {
 	/**
 	 * @return void
 	 */
-	public function enableDefaultChecks( ObjectFactory $objectFactory ) {
+	public function enableDefaultChecks(
+		ObjectFactory $objectFactory,
+		Config $mainConfig
+	) {
 		foreach ( self::DEFAULT_CHECKS as $spec ) {
+			$extraArgs = [];
+			if ( defined( $spec['class'] . '::CONSTRUCTOR_OPTIONS' ) ) {
+				$extraArgs = [
+					new ServiceOptions(
+						$spec['class']::CONSTRUCTOR_OPTIONS,
+						$mainConfig
+					),
+				];
+			}
 			// ObjectFactory::createObject accepts an array, not just a
 			// callable (phan bug)
 			// @phan-suppress-next-line PhanTypeInvalidCallableArrayKey
@@ -84,6 +98,7 @@ class ChecksRunner {
 				$spec,
 				[
 					'assertClass' => BaseCheck::class,
+					'extraArgs' => $extraArgs,
 				]
 			);
 			$this->addCheck( $checkToRun );
