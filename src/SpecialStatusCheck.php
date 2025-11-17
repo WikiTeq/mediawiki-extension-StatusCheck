@@ -51,7 +51,15 @@ class SpecialStatusCheck extends SpecialPage {
 	 */
 	private function performWelcome() {
 		$form = new OOUIHTMLForm( [], $this->getContext() );
-		$form->setSubmitTextMsg( 'statuscheck-run-checks' );
+		// If the page has already been submitted, we want the button to have
+		// slightly different text - make that decision based on if the request
+		// was POSTed (presumably a submission) or a GET request (looking for
+		// the first time)
+		if ( $this->getRequest()->wasPosted() ) {
+			$form->setSubmitTextMsg( 'statuscheck-run-checks-again' );
+		} else {
+			$form->setSubmitTextMsg( 'statuscheck-run-checks' );
+		}
 		$form->setSubmitCallback(
 			[
 				$this,

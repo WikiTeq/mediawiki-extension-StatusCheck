@@ -11,6 +11,7 @@
 	"right-status-check": "Perform site status checks",
 	"statuscheck-title": "MediaWiki status check",
 	"statuscheck-run-checks": "Run checks",
+	"statuscheck-run-checks-again": "Run checks again",
 	"statuscheck-running-checks": "Running checks...",
 	"statuscheck-check-composer-dependencies": "Checking if Composer dependencies are up-to-date",
 	"statuscheck-check-composer-dependencies-suggestions": "Run composer update --no-dev",
