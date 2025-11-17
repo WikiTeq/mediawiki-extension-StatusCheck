@@ -4,7 +4,7 @@
 			"WikiTeq"
 		]
 	},
-	"statuscheck-desc": "This is an example extension",
+	"statuscheck-desc": "Extension to check the status of various MediaWiki features",
 	"statuscheck": "MediaWiki status check",
 	"status-check-special-welcome": "Press the button to perform checks",
 	"action-status-check": "perform site status checks",
