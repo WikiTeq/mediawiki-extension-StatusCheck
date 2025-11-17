@@ -74,21 +74,11 @@ class StatusCheckEndpoint extends ApiBase {
 	 * @inheritDoc
 	 */
 	public function isWriteMode() {
-		return false;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function mustBePosted() {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getAllowedParams() {
-		return [];
+	public function needsToken(): string {
+		return 'csrf';
 	}
 
 }
