@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"WikiTeq"
+			"WikiTeq",
+			"Daniel Scherzer"
 		]
 	},
 	"statuscheck-desc": "Extension to check the status of various MediaWiki features",

@@ -1,7 +1,8 @@
 {
 	"name": "StatusCheck",
 	"author": [
-		"WikiTeq"
+		"WikiTeq",
+		"Daniel Scherzer"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:StatusCheck",
 	"descriptionmsg": "statuscheck-desc",
