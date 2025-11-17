@@ -2,6 +2,8 @@
 
 namespace MediaWiki\Extension\StatusCheck\Checks;
 
+use Message;
+use MessageLocalizer;
 use StatusValue;
 
 abstract class BaseCheck {
@@ -24,11 +26,8 @@ abstract class BaseCheck {
 		return static::class;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDescription(): string {
-		return wfMessage( $this->descriptionKey );
+	public function getDescription( MessageLocalizer $localizer ): Message {
+		return $localizer->msg( $this->descriptionKey );
 	}
 
 	/**
@@ -36,11 +35,8 @@ abstract class BaseCheck {
 	 */
 	abstract public function perform(): StatusValue;
 
-	/**
-	 * @return string
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( $this->mitigationKey );
+	public function getMitigationSuggestions( MessageLocalizer $localizer ): Message {
+		return $localizer->msg( $this->mitigationKey );
 	}
 
 }

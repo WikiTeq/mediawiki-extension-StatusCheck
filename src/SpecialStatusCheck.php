@@ -83,7 +83,7 @@ class SpecialStatusCheck extends SpecialPage {
 			$checkDetails[] = Html::rawElement(
 				'li',
 				[],
-				$checkResult->getCheck()->getDescription()
+				$checkResult->getCheck()->getDescription( $this )->parse()
 			);
 
 			$status = $checkResult->getStatus();
@@ -101,7 +101,7 @@ class SpecialStatusCheck extends SpecialPage {
 				$checkDetails[] = Html::rawElement(
 					'li',
 					[ 'class' => 'status-check-suggestions' ],
-					$checkResult->getCheck()->getMitigationSuggestions()
+					$checkResult->getCheck()->getMitigationSuggestions( $this )->parse()
 				);
 			} else {
 				$checkDetails[] = Html::rawElement(

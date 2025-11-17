@@ -44,7 +44,7 @@ class StatusCheckEndpoint extends ApiBase {
 		foreach ( $results as $checkResult ) {
 			$responseItem = [
 				'name' => $checkResult->getCheck()->getName(),
-				'description' => $checkResult->getCheck()->getDescription(),
+				'description' => $checkResult->getCheck()->getDescription( $this )->parse(),
 				'errors' => [],
 				'status' => CheckResult::STATUS_RAW_SUCCESS
 			];
@@ -58,7 +58,7 @@ class StatusCheckEndpoint extends ApiBase {
 					)->parse();
 				}
 				$responseItem['status'] = CheckResult::STATUS_RAW_FAIL;
-				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions();
+				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions( $this )->parse();
 
 				$response['status'] = CheckResult::STATUS_RAW_FAIL;
 			}
