@@ -18,6 +18,7 @@
 	"statuscheck-check-email-send-suggestions": "Verify $wgSMTP configuration or server mailing function",
 	"statuscheck-check-file-upload": "Checking if file upload works",
 	"statuscheck-check-file-upload-suggestions": "Verify upload directory configuration and file permissions",
+	"statuscheck-fileupload-uuid-collision": "File uploading not tested, UUID collided twice",
 	"statuscheck-check-stuck-jobs": "Checking for stuck jobs",
 	"statuscheck-check-stuck-jobs-suggestions": "Verify job details and ensure underlying issues are fixed, then re-queue the jobs",
 	"statuscheck-check-search": "Checking search engine",

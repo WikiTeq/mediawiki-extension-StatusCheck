@@ -27,6 +27,8 @@ class ChecksRunner {
 		'FileUpload' => [
 			'class' => FileUploadCheck::class,
 			'services' => [
+				'GlobalIdGenerator',
+				'PermissionManager',
 				'RepoGroup',
 				'TitleFactory',
 			],

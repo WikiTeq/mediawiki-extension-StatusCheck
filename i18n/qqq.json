@@ -18,6 +18,7 @@
 	"statuscheck-check-email-send-suggestions": "email suggestion",
 	"statuscheck-check-file-upload": "file upload title",
 	"statuscheck-check-file-upload-suggestions": "file upload suggestion",
+	"statuscheck-fileupload-uuid-collision": "error when file uploading cannot be tested due to UUID collision, unlikely to occur",
 	"statuscheck-check-stuck-jobs": "stuck jobs title",
 	"statuscheck-check-stuck-jobs-suggestions": "stuck jobs suggestion",
 	"statuscheck-check-search": "Search checks title",
