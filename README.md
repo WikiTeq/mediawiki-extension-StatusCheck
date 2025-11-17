@@ -2,7 +2,7 @@ The extension allows to perform on-site checks for various issues
 
 # Requirements
 
-* MediaWiki 1.35+
+* MediaWiki 1.39+
 
 # Installation
 
