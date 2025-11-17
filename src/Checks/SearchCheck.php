@@ -9,17 +9,19 @@ use SearchEngineConfig;
 use SearchEngineFactory;
 use Status;
 use StatusValue;
-use Title;
+use TitleFactory;
 
 class SearchCheck extends BaseCheck {
 
 	private SearchEngineConfig $searchEngineConfig;
 	private SearchEngineFactory $searchEngineFactory;
+	private TitleFactory $titleFactory;
 	private WikiPageFactory $wikiPageFactory;
 
 	public function __construct(
 		SearchEngineConfig $searchEngineConfig,
 		SearchEngineFactory $searchEngineFactory,
+		TitleFactory $titleFactory,
 		WikiPageFactory $wikiPageFactory
 	) {
 		parent::__construct(
@@ -28,6 +30,7 @@ class SearchCheck extends BaseCheck {
 		);
 		$this->searchEngineConfig = $searchEngineConfig;
 		$this->searchEngineFactory = $searchEngineFactory;
+		$this->titleFactory = $titleFactory;
 		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
@@ -75,7 +78,7 @@ class SearchCheck extends BaseCheck {
 	 * @return mixed|string
 	 */
 	private function getSearchSample( SearchEngine $engine ) {
-		$homepageTitle = Title::newMainPage();
+		$homepageTitle = $this->titleFactory->newMainPage();
 		$homepagePage = $this->wikiPageFactory->newFromTitle( $homepageTitle );
 		$content = $homepagePage->getContent()->getWikitextForTransclusion();
 		$words = explode( ' ', $content );

@@ -4,7 +4,7 @@ namespace MediaWiki\Extension\StatusCheck\Checks;
 
 use RepoGroup;
 use StatusValue;
-use Title;
+use TitleFactory;
 use UploadBase;
 use User;
 
@@ -16,13 +16,18 @@ use User;
 class FileUploadCheck extends BaseCheck {
 
 	private RepoGroup $repoGroup;
+	private TitleFactory $titleFactory;
 
-	public function __construct( RepoGroup $repoGroup ) {
+	public function __construct(
+		RepoGroup $repoGroup,
+		TitleFactory $titleFactory
+	) {
 		parent::__construct(
 			'statuscheck-check-file-upload',
 			'statuscheck-check-file-upload-suggestions'
 		);
 		$this->repoGroup = $repoGroup;
+		$this->titleFactory = $titleFactory;
 	}
 
 	/**
@@ -37,7 +42,7 @@ class FileUploadCheck extends BaseCheck {
 		$fileName = 'StatusCheckTestUpload.jpg';
 		$mimeType = 'image/jpeg';
 		$filePath = __DIR__ . '/data/yuv420.jpg';
-		$title = Title::newFromText( $fileName, NS_FILE );
+		$title = $this->titleFactory->newFromText( $fileName, NS_FILE );
 		$user = User::newSystemUser( User::MAINTENANCE_SCRIPT_USER );
 
 		$image = $this->repoGroup->getLocalRepo()->newFile( $title );

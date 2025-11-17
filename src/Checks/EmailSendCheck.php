@@ -5,8 +5,8 @@ namespace MediaWiki\Extension\StatusCheck\Checks;
 use Exception;
 use MailAddress;
 use MediaWiki\Config\ServiceOptions;
+use MediaWiki\Mail\IEmailer;
 use StatusValue;
-use UserMailer;
 
 class EmailSendCheck extends BaseCheck {
 
@@ -16,14 +16,19 @@ class EmailSendCheck extends BaseCheck {
 	];
 
 	private ServiceOptions $options;
+	private IEmailer $emailer;
 
-	public function __construct( ServiceOptions $options ) {
+	public function __construct(
+		ServiceOptions $options,
+		IEmailer $emailer
+	) {
 		parent::__construct(
 			'statuscheck-check-email-send',
 			'statuscheck-check-email-send-suggestions'
 		);
 		$options->assertRequiredOptions( self::CONSTRUCTOR_OPTIONS );
 		$this->options = $options;
+		$this->emailer = $emailer;
 	}
 
 	/**
@@ -39,7 +44,7 @@ class EmailSendCheck extends BaseCheck {
 		}
 		$from = $this->options->get( 'PasswordSender' );
 		try {
-			$result = UserMailer::send(
+			$result = $this->emailer->send(
 				new MailAddress( $to ),
 				new MailAddress( $from ),
 				'Test',

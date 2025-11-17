@@ -20,11 +20,15 @@ class ChecksRunner {
 		],
 		'EmailSend' => [
 			'class' => EmailSendCheck::class,
+			'services' => [
+				'Emailer',
+			],
 		],
 		'FileUpload' => [
 			'class' => FileUploadCheck::class,
 			'services' => [
 				'RepoGroup',
+				'TitleFactory',
 			],
 		],
 		'Search' => [
@@ -32,6 +36,7 @@ class ChecksRunner {
 			'services' => [
 				'SearchEngineConfig',
 				'SearchEngineFactory',
+				'TitleFactory',
 				'WikiPageFactory',
 			],
 		],
