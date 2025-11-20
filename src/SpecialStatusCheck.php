@@ -9,17 +9,21 @@ namespace MediaWiki\Extension\StatusCheck;
 use Html;
 use OOUIHTMLForm;
 use SpecialPage;
+use Wikimedia\ObjectFactory\ObjectFactory;
 
 class SpecialStatusCheck extends SpecialPage {
 
+	private ObjectFactory $objectFactory;
+
 	/**
-	 * @inheritDoc
+	 * @param ObjectFactory $objectFactory
 	 */
-	public function __construct() {
+	public function __construct( ObjectFactory $objectFactory ) {
 		parent::__construct(
 			'StatusCheck',
 			'status-check'
 		);
+		$this->objectFactory = $objectFactory;
 	}
 
 	/**
@@ -37,7 +41,7 @@ class SpecialStatusCheck extends SpecialPage {
 		} else {
 			$out->setPageTitle( $this->msg( 'statuscheck-title' ) );
 		}
-		$out->addModules( 'ext.statusCheck' );
+		$out->addModuleStyles( 'ext.statusCheck' );
 		$out->enableOOUI();
 		$this->performWelcome();
 	}
@@ -47,7 +51,15 @@ class SpecialStatusCheck extends SpecialPage {
 	 */
 	private function performWelcome() {
 		$form = new OOUIHTMLForm( [], $this->getContext() );
-		$form->setSubmitText( 'Run checks' );
+		// If the page has already been submitted, we want the button to have
+		// slightly different text - make that decision based on if the request
+		// was POSTed (presumably a submission) or a GET request (looking for
+		// the first time)
+		if ( $this->getRequest()->wasPosted() ) {
+			$form->setSubmitTextMsg( 'statuscheck-run-checks-again' );
+		} else {
+			$form->setSubmitTextMsg( 'statuscheck-run-checks' );
+		}
 		$form->setSubmitCallback(
 			[
 				$this,
@@ -63,39 +75,47 @@ class SpecialStatusCheck extends SpecialPage {
 	 */
 	public function performChecks() {
 		$out = $this->getOutput();
-		$out->addHTML( '<br>Running checks...' );
+		$out->addHTML( '<br>' );
+		$out->addWikiMsg( 'statuscheck-running-checks' );
 		$out->addHTML( '<ul>' );
 
 		$runner = new ChecksRunner();
-		$runner->enableDefaultChecks();
-		$result = $runner->run();
+		$runner->enableDefaultChecks(
+			$this->objectFactory,
+			$this->getConfig()
+		);
+		$results = $runner->run();
 
-		foreach ( $result->getCheckResults() as $checkResult ) {
+		foreach ( $results as $checkResult ) {
 			$checkDetails = [];
 			$checkDetails[] = Html::rawElement(
 				'li',
 				[],
-				$checkResult->getCheck()->getDescription()
+				$checkResult->getCheck()->getDescription( $this )->parse()
 			);
 
-			if ( !$checkResult->isGood() ) {
-				foreach ( $checkResult->getErrorsText() as $errorText ) {
+			$status = $checkResult->getStatus();
+			if ( !$status->isGood() ) {
+				foreach ( $status->getErrors() as $errorDetails ) {
 					$checkDetails[] = Html::rawElement(
 						'li',
 						[ 'class' => 'status-check-error' ],
-						$errorText
-					);
-					$checkDetails[] = Html::rawElement(
-						'li',
-						[ 'class' => 'status-check-suggestions' ],
-						$checkResult->getCheck()->getMitigationSuggestions()
+						$this->msg(
+							$errorDetails['message'],
+							...$errorDetails['params']
+						)->parse()
 					);
 				}
+				$checkDetails[] = Html::rawElement(
+					'li',
+					[ 'class' => 'status-check-suggestions' ],
+					$checkResult->getCheck()->getMitigationSuggestions( $this )->parse()
+				);
 			} else {
 				$checkDetails[] = Html::rawElement(
 					'li',
 					[ 'class' => 'status-check-success' ],
-					'OK'
+					$this->msg( 'statuscheck-check-success' )->parse()
 				);
 			}
 

@@ -3,35 +3,44 @@
 namespace MediaWiki\Extension\StatusCheck\Checks;
 
 use Error;
-use MediaWiki\MediaWikiServices;
+use MediaWiki\Page\WikiPageFactory;
 use SearchEngine;
+use SearchEngineConfig;
+use SearchEngineFactory;
 use Status;
 use StatusValue;
-use Title;
+use TitleFactory;
 
 class SearchCheck extends BaseCheck {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getName(): string {
-		return self::class;
-	}
+	private SearchEngineConfig $searchEngineConfig;
+	private SearchEngineFactory $searchEngineFactory;
+	private TitleFactory $titleFactory;
+	private WikiPageFactory $wikiPageFactory;
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-search' );
+	public function __construct(
+		SearchEngineConfig $searchEngineConfig,
+		SearchEngineFactory $searchEngineFactory,
+		TitleFactory $titleFactory,
+		WikiPageFactory $wikiPageFactory
+	) {
+		parent::__construct(
+			'statuscheck-check-search',
+			'statuscheck-check-search-suggestions'
+		);
+		$this->searchEngineConfig = $searchEngineConfig;
+		$this->searchEngineFactory = $searchEngineFactory;
+		$this->titleFactory = $titleFactory;
+		$this->wikiPageFactory = $wikiPageFactory;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function perform(): StatusValue {
-		$type = MediaWikiServices::getInstance()->getSearchEngineConfig()->getSearchType();
+		$type = $this->searchEngineConfig->getSearchType();
 		try {
-			$engine = MediaWikiServices::getInstance()->getSearchEngineFactory()->create( $type );
+			$engine = $this->searchEngineFactory->create( $type );
 		} catch ( Error $e ) {
 			return StatusValue::newGood()->error(
 				'statuscheck-generic-error',
@@ -69,8 +78,8 @@ class SearchCheck extends BaseCheck {
 	 * @return mixed|string
 	 */
 	private function getSearchSample( SearchEngine $engine ) {
-		$homepageTitle = Title::newMainPage();
-		$homepagePage = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $homepageTitle );
+		$homepageTitle = $this->titleFactory->newMainPage();
+		$homepagePage = $this->wikiPageFactory->newFromTitle( $homepageTitle );
 		$content = $homepagePage->getContent()->getWikitextForTransclusion();
 		$words = explode( ' ', $content );
 		// Find the first word without special characters, e.g. on the default
@@ -89,12 +98,5 @@ class SearchCheck extends BaseCheck {
 			return $filtered[0];
 		}
 		return $words[0];
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-search-suggestions' );
 	}
 }

@@ -1,7 +1,8 @@
 {
 	"name": "StatusCheck",
 	"author": [
-		"WikiTeq"
+		"WikiTeq",
+		"Daniel Scherzer"
 	],
 	"url": "https://www.mediawiki.org/wiki/Extension:StatusCheck",
 	"descriptionmsg": "statuscheck-desc",
@@ -18,42 +19,31 @@
 		"StatusCheckEmailAddress": {
 			"description": "Email address to test email sending",
 			"value": null
-		},
-		"StatusCheckDefaultSet": {
-			"description": "List of Checks classes to perfom by default",
-			"value": [
-				"MediaWiki\\Extension\\StatusCheck\\Checks\\ComposerDependenciesCheck",
-				"MediaWiki\\Extension\\StatusCheck\\Checks\\EmailSendCheck",
-				"MediaWiki\\Extension\\StatusCheck\\Checks\\FileUploadCheck",
-				"MediaWiki\\Extension\\StatusCheck\\Checks\\StuckJobsCheck",
-				"MediaWiki\\Extension\\StatusCheck\\Checks\\SearchCheck"
-			]
 		}
 	},
-	"ConfigRegistry": {
-		"StatusCheck": "GlobalVarConfig::newInstance"
-	},
 	"SpecialPages": {
-		"StatusCheck": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck"
+		"StatusCheck": {
+			"class": "MediaWiki\\Extension\\StatusCheck\\SpecialStatusCheck",
+			"services": [
+				"ObjectFactory"
+			]
+		}
 	},
 	"AvailableRights": [
 		"status-check"
 	],
 	"APIModules": {
-		"statuscheck": "MediaWiki\\Extension\\StatusCheck\\Api\\StatusCheckEndpoint"
+		"statuscheck": {
+			"class": "MediaWiki\\Extension\\StatusCheck\\Api\\StatusCheckEndpoint",
+			"services": [
+				"ObjectFactory"
+			]
+		}
 	},
 	"GroupPermissions": {
 		"sysop": {
 			"status-check": true
 		}
-	},
-	"HookHandlers": {
-		"StatusCheckHooks": {
-			"class": "MediaWiki\\Extension\\StatusCheck\\Hooks"
-		}
-	},
-	"Hooks": {
-		"BeforePageDisplay": "StatusCheckHooks"
 	},
 	"MessagesDirs": {
 		"StatusCheck": [
@@ -68,14 +58,9 @@
 		"ext.statusCheck": {
 			"localBasePath": "resources/ext.statusCheck",
 			"remoteExtPath": "StatusCheck/resources/ext.statusCheck",
-			"dependencies": [],
 			"styles": [
 				"init.css"
-			],
-			"packageFiles": [
-				"init.js"
-			],
-			"messages": []
+			]
 		}
 	},
 	"manifest_version": 2

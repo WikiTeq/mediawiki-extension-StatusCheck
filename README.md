@@ -2,7 +2,7 @@ The extension allows to perform on-site checks for various issues
 
 # Requirements
 
-* MediaWiki 1.35+
+* MediaWiki 1.39+
 
 # Installation
 
@@ -13,7 +13,6 @@ The extension allows to perform on-site checks for various issues
 # Configuration
 
 * `$wgStatusCheckEmailAddress` - receiving email address for email function testing
-* `$wgStatusCheckDefaultSet` - list of Checks classes to include into default run
 
 # Usage
 
@@ -37,6 +36,5 @@ The extension allows to perform on-site checks for various issues
 * `src/Checks/BaseCheck.php` - is the base abstract class for creating new Checks
 * `src/ChecksRunner.php` - class performs Checks runs
 * `src/CheckResult.php` - class represents result of running a single Check
-* `src/RunResult.php` - represents result of running batch of checks via ChecksRunner
 
 See bundled checks to learn how to create new ones, e.g.: `src/Checks/EmailSendCheck.php`

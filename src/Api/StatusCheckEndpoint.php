@@ -3,11 +3,24 @@
 namespace MediaWiki\Extension\StatusCheck\Api;
 
 use ApiBase;
+use ApiMain;
 use MediaWiki\Extension\StatusCheck\CheckResult;
 use MediaWiki\Extension\StatusCheck\ChecksRunner;
-use MediaWiki\Extension\StatusCheck\RunResult;
+use Wikimedia\ObjectFactory\ObjectFactory;
 
 class StatusCheckEndpoint extends ApiBase {
+
+	private ObjectFactory $objectFactory;
+
+	public function __construct(
+		ApiMain $main,
+		string $action,
+		ObjectFactory $objectFactory
+	) {
+		parent::__construct( $main, $action );
+		$this->objectFactory = $objectFactory;
+	}
+
 	/**
 	 * @inheritDoc
 	 */
@@ -17,35 +30,40 @@ class StatusCheckEndpoint extends ApiBase {
 		$params = $this->extractRequestParams();
 
 		$response = [
-			'status' => RunResult::STATUS_RAW_SUCCESS,
+			'status' => CheckResult::STATUS_RAW_SUCCESS,
 			'checkResults' => []
 		];
 
 		$runner = new ChecksRunner();
-		$runner->enableDefaultChecks();
-		$result = $runner->run();
+		$runner->enableDefaultChecks(
+			$this->objectFactory,
+			$this->getConfig()
+		);
+		$results = $runner->run();
 
-		foreach ( $result->getCheckResults() as $checkResult ) {
+		foreach ( $results as $checkResult ) {
 			$responseItem = [
 				'name' => $checkResult->getCheck()->getName(),
-				'description' => $checkResult->getCheck()->getDescription(),
+				'description' => $checkResult->getCheck()->getDescription( $this )->parse(),
 				'errors' => [],
 				'status' => CheckResult::STATUS_RAW_SUCCESS
 			];
 
-			if ( !$checkResult->isGood() ) {
-				foreach ( $checkResult->getErrorsText() as $errorText ) {
-					$responseItem['errors'][] = $errorText;
+			$status = $checkResult->getStatus();
+			if ( !$status->isGood() ) {
+				foreach ( $status->getErrors() as $errorDetails ) {
+					$responseItem['errors'][] = $this->msg(
+						$errorDetails['message'],
+						...$errorDetails['params']
+					)->parse();
 				}
 				$responseItem['status'] = CheckResult::STATUS_RAW_FAIL;
-				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions();
+				$responseItem['suggestion'] = $checkResult->getCheck()->getMitigationSuggestions( $this )->parse();
+
+				$response['status'] = CheckResult::STATUS_RAW_FAIL;
 			}
 
 			$response['checkResults'][] = $responseItem;
-		}
-
-		if ( !$result->isGood() ) {
-			$response['status'] = RunResult::STATUS_RAW_FAIL;
 		}
 
 		$result = $this->getResult();
@@ -56,21 +74,11 @@ class StatusCheckEndpoint extends ApiBase {
 	 * @inheritDoc
 	 */
 	public function isWriteMode() {
-		return false;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function mustBePosted() {
 		return true;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getAllowedParams() {
-		return [];
+	public function needsToken(): string {
+		return 'csrf';
 	}
 
 }

@@ -2,11 +2,14 @@
 
 namespace MediaWiki\Extension\StatusCheck\Checks;
 
-use MediaWiki\MediaWikiServices;
+use FileDeleteForm;
+use MediaWiki\Permissions\PermissionManager;
+use RepoGroup;
 use StatusValue;
-use Title;
+use TitleFactory;
 use UploadBase;
 use User;
+use Wikimedia\UUID\GlobalIdGenerator;
 
 /**
  * This check verifies in a very basic way that file can be uploaded
@@ -15,18 +18,25 @@ use User;
  */
 class FileUploadCheck extends BaseCheck {
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getName(): string {
-		return self::class;
-	}
+	private GlobalIdGenerator $globalIdGenerator;
+	private PermissionManager $permissionManager;
+	private RepoGroup $repoGroup;
+	private TitleFactory $titleFactory;
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-file-upload' );
+	public function __construct(
+		GlobalIdGenerator $globalIdGenerator,
+		PermissionManager $permissionManager,
+		RepoGroup $repoGroup,
+		TitleFactory $titleFactory
+	) {
+		parent::__construct(
+			'statuscheck-check-file-upload',
+			'statuscheck-check-file-upload-suggestions'
+		);
+		$this->globalIdGenerator = $globalIdGenerator;
+		$this->permissionManager = $permissionManager;
+		$this->repoGroup = $repoGroup;
+		$this->titleFactory = $titleFactory;
 	}
 
 	/**
@@ -38,16 +48,23 @@ class FileUploadCheck extends BaseCheck {
 		}
 
 		// We naively assume that .jpg is in allowed uploads list
-		$fileName = 'StatusCheckTestUpload.jpg';
-		$mimeType = 'image/jpeg';
 		$filePath = __DIR__ . '/data/yuv420.jpg';
-		$title = Title::newFromText( $fileName, NS_FILE );
 		$user = User::newSystemUser( User::MAINTENANCE_SCRIPT_USER );
+		// NOT adding autopatrol here, it wouldn't work: the page creation for
+		// the file upload will be done in a deferred update, but at that point
+		// the temporary user rights' scope will have expired
+		$scope = $this->permissionManager->addTemporaryUserRights(
+			$user,
+			[ 'upload', 'delete' ]
+		);
 
-		$image = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
-		if ( $image->exists() ) {
-			$image->deleteFile( 'StatusCheck test upload cleanup', $user, true );
+		$titleAndImage = $this->getTitleAndImage();
+		if ( $titleAndImage === null ) {
+			return StatusValue::newFatal(
+				'statuscheck-fileupload-uuid-collision'
+			);
 		}
+		[ $title, $image ] = $titleAndImage;
 
 		$result = $image->upload(
 			$filePath,
@@ -60,16 +77,45 @@ class FileUploadCheck extends BaseCheck {
 		);
 
 		if ( $result->isGood() ) {
-			$image->deleteFile( 'StatusCheck test upload cleanup', $user, true );
+			$result->merge(
+				FileDeleteForm::doDelete(
+					$title,
+					$image,
+					null,
+					'StatusCheck test upload cleanup',
+					// Suppress
+					false,
+					$user
+				)
+			);
 		}
 
 		return $result;
 	}
 
 	/**
-	 * @inheritDoc
+	 * Try to get a Title object and an associated LocalFile object, for a file
+	 * that does not already exist, using UUIDs to avoid collision. Try twice
+	 * before giving up - the odds of colliding once are negligible, twice
+	 * indicates something is probably wrong.
 	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-file-upload-suggestions' );
+	private function getTitleAndImage(): ?array {
+		$uuid = $this->globalIdGenerator->newUUIDv4();
+		$fileName = "StatusCheckTestUpload-$uuid.jpg";
+		$title = $this->titleFactory->newFromText( $fileName, NS_FILE );
+		$image = $this->repoGroup->getLocalRepo()->newFile( $title );
+		if ( !$image->exists() ) {
+			return [ $title, $image ];
+		}
+
+		$uuid2 = $this->globalIdGenerator->newUUIDv4();
+		$fileName2 = "StatusCheckTestUpload-$uuid2.jpg";
+		$title2 = $this->titleFactory->newFromText( $fileName2, NS_FILE );
+		$image2 = $this->repoGroup->getLocalRepo()->newFile( $title2 );
+		if ( !$image2->exists() ) {
+			return [ $title2, $image2 ];
+		}
+
+		return null;
 	}
 }

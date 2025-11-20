@@ -13,25 +13,11 @@ use StatusValue;
 
 class ComposerDependenciesCheck extends BaseCheck {
 
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return self::class;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDescription(): string {
-		return wfMessage( 'statuscheck-check-composer-dependencies' );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMitigationSuggestions(): string {
-		return wfMessage( 'statuscheck-check-composer-dependencies-suggestions' );
+	public function __construct() {
+		parent::__construct(
+			'statuscheck-check-composer-dependencies',
+			'statuscheck-check-composer-dependencies-suggestions'
+		);
 	}
 
 	/**
