@@ -50,6 +50,9 @@ class FileUploadCheck extends BaseCheck {
 		// We naively assume that .jpg is in allowed uploads list
 		$filePath = __DIR__ . '/data/yuv420.jpg';
 		$user = User::newSystemUser( User::MAINTENANCE_SCRIPT_USER );
+		// NOT adding autopatrol here, it wouldn't work: the page creation for
+		// the file upload will be done in a deferred update, but at that point
+		// the temporary user rights' scope will have expired
 		$scope = $this->permissionManager->addTemporaryUserRights(
 			$user,
 			[ 'upload', 'delete' ]
