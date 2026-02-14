@@ -103,17 +103,21 @@ class FileUploadCheck extends BaseCheck {
 		$uuid = $this->globalIdGenerator->newUUIDv4();
 		$fileName = "StatusCheckTestUpload-$uuid.jpg";
 		$title = $this->titleFactory->newFromText( $fileName, NS_FILE );
-		$image = $this->repoGroup->getLocalRepo()->newFile( $title );
-		if ( !$image->exists() ) {
-			return [ $title, $image ];
+		if ( $title ) {
+			$image = $this->repoGroup->getLocalRepo()->newFile( $title );
+			if ( !$image->exists() ) {
+				return [ $title, $image ];
+			}
 		}
 
 		$uuid2 = $this->globalIdGenerator->newUUIDv4();
 		$fileName2 = "StatusCheckTestUpload-$uuid2.jpg";
 		$title2 = $this->titleFactory->newFromText( $fileName2, NS_FILE );
-		$image2 = $this->repoGroup->getLocalRepo()->newFile( $title2 );
-		if ( !$image2->exists() ) {
-			return [ $title2, $image2 ];
+		if ( $title2 ) {
+			$image2 = $this->repoGroup->getLocalRepo()->newFile( $title2 );
+			if ( !$image2->exists() ) {
+				return [ $title2, $image2 ];
+			}
 		}
 
 		return null;
