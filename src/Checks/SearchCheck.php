@@ -79,8 +79,12 @@ class SearchCheck extends BaseCheck {
 	 */
 	private function getSearchSample( SearchEngine $engine ) {
 		$homepageTitle = $this->titleFactory->newMainPage();
+		if ( !$homepageTitle ) {
+			return 'MediaWiki';
+		}
 		$homepagePage = $this->wikiPageFactory->newFromTitle( $homepageTitle );
-		$content = $homepagePage->getContent()->getWikitextForTransclusion();
+		$contentObj = $homepagePage->getContent();
+		$content = $contentObj ? $contentObj->getWikitextForTransclusion() : '';
 		$words = explode( ' ', $content );
 		// Find the first word without special characters, e.g. on the default
 		// MediaWiki install if the main page is unchanged the `mainpagetext`
