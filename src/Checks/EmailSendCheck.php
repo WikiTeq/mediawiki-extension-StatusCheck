@@ -53,7 +53,7 @@ class EmailSendCheck extends BaseCheck {
 		} catch ( Exception $e ) {
 			return StatusValue::newGood()->error(
 				'statuscheck-generic-error',
-				'Nothing was found during test serach, this may indicate issues with search engine'
+				$e->getMessage()
 			);
 		}
 
