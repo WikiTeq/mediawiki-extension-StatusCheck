@@ -46,16 +46,11 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '7.4', '8.1', '8.3' ]
-        mediawiki: [ REL1_39, REL1_43 ]
+        mediawiki: [ REL1_43 ]
         exclude:
           # MW 1.43 requires PHP 8.1+
           - php: '7.4'
             mediawiki: REL1_43
-          # MW 1.39 requires mediawiki/mediawiki-phan-config@0.12.1 which
-          # requires mediawiki/phan-taint-check-plugin@4.0.0 which crashes
-          # on PHP 8.2+ due to use of deprecated string interpolation
-          - php: '8.3'
-            mediawiki: REL1_39
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -112,7 +107,7 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '7.4', '8.1', '8.3' ]
-        mediawiki: [ REL1_39, REL1_43 ]
+        mediawiki: [ REL1_43 ]
         exclude:
           - php: '7.4'
             mediawiki: REL1_43
